@@ -145,7 +145,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -171,7 +171,7 @@ Project Link: [https://github.com/abruneau/datadog_usage_monitoring](https://git
 [issues-shield]: https://img.shields.io/github/issues/abruneau/datadog_usage_monitoring.svg?style=for-the-badge
 [issues-url]: https://github.com/abruneau/datadog_usage_monitoring/issues
 [license-shield]: https://img.shields.io/github/license/abruneau/datadog_usage_monitoring.svg?style=for-the-badge
-[license-url]: https://github.com/abruneau/datadog_usage_monitoring/blob/master/LICENSE.txt
+[license-url]: https://github.com/abruneau/datadog_usage_monitoring/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/antoninbruneau
 [Terraform.io]: https://img.shields.io/badge/terraform-7B42BC?logo=terraform&logoColor=white&style=for-the-badge
