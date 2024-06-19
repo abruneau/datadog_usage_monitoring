@@ -2782,7 +2782,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
       layout_type = "ordered"
       widget {
         timeseries_definition {
-          title = "Number of hosts running"
+          title = "Number of hosts NPM running"
           show_legend = true
           legend_layout = "auto"
           legend_columns = ["avg","min","max","value","sum"]
@@ -2909,6 +2909,139 @@ resource "datadog_dashboard" "ordered_dashboard" {
         widget_layout {
           x = 8
           y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        timeseries_definition {
+          title = "Number of NDM devices running"
+          show_legend = true
+          legend_layout = "auto"
+          legend_columns = ["avg","min","max","value","sum"]
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "avg:datadog.estimated_usage.network.devices{*}"
+                data_source = "metrics"
+                name = "query1"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "area"
+          }
+          request {
+            on_right_yaxis = false
+            formula {
+              formula_expression = "month_before(query0)"
+            }
+            query {
+              metric_query {
+                query = "avg:datadog.estimated_usage.network.devices{*}"
+                data_source = "metrics"
+                name = "query0"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "line"
+          }
+          yaxis {
+            include_zero = true
+            scale = "linear"
+            min = "auto"
+            max = "auto"
+          }
+          marker {
+            label = " commit "
+            value = "y = ${var.commited_network_devices}"
+            display_type = "error dashed"
+          }
+        }
+        widget_layout {
+          x = 0
+          y = 2
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Number of NDM devices running (count)"
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "avg:datadog.estimated_usage.network.devices{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_network_devices
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_network_devices
+              palette = "white_on_red"
+            }
+          }
+          precision = 0
+        }
+        widget_layout {
+          x = 4
+          y = 2
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Est. Cost for NDM devices (USD) on-demand"
+          request {
+            formula {
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_network_devices}) * 10.20, 0)"
+            }
+            query {
+              metric_query {
+                query = "avg:datadog.estimated_usage.network.devices{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "="
+              value = 0
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = 0
+              palette = "white_on_yellow"
+            }
+          }
+          custom_unit = "$"
+          precision = 0
+        }
+        widget_layout {
+          x = 8
+          y = 2
           width = 4
           height = 2
         }

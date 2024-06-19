@@ -119,6 +119,11 @@ variable "commited_network_hosts" {
   default = 0
 }
 
+variable "commited_network_devices" {
+  type = number
+  default = 0
+}
+
 variable "commited_asm_sca_hosts" {
   type = number
   default = 0

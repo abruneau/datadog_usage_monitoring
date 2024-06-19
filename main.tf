@@ -32,6 +32,7 @@ module "monitors" {
   commited_ci_visibility_pipeline_committers = var.commited_ci_visibility_pipeline_committers
   commited_ci_visibility_test_committers     = var.commited_ci_visibility_test_committers
   commited_network_hosts                     = var.commited_network_hosts
+  commited_network_devices                   = var.commited_network_devices
   commited_asm_sca_hosts                     = var.commited_asm_sca_hosts
 }
 
@@ -55,5 +56,6 @@ module "dashboards" {
   commited_ci_visibility_pipeline_committers = var.commited_ci_visibility_pipeline_committers
   commited_ci_visibility_test_committers     = var.commited_ci_visibility_test_committers
   commited_network_hosts                     = var.commited_network_hosts
+  commited_network_devices                   = var.commited_network_devices
   commited_asm_sca_hosts                     = var.commited_asm_sca_hosts
 }
