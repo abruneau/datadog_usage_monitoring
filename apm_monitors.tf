@@ -6,6 +6,14 @@ resource "datadog_monitor" "apm_host_count" {
   tags    = ["service:datadog_usage"]
 }
 
+resource "datadog_monitor" "profiling_host_count" {
+  name    = "Number of Profiling hosts"
+  type    = "metric alert"
+  message = "Nb of hosts is too high!"
+  query   = "max(last_10m):max:datadog.estimated_usage.profiling.hosts{*}  > ${local.profiling_hosts_count}"
+  tags    = ["service:datadog_usage"]
+}
+
 resource "datadog_monitor" "apm_ingested_spans_month" {
   name    = "Monthly number of APM ingested spans"
   type    = "metric alert"

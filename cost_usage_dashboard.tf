@@ -107,7 +107,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           title = "Est. Cost for Infrastructure (USD) on-demand"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_hosts}) * 18, 0)"
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_hosts}) * ${local.price_on_demand_host}, 0)"
             }
             query {
               metric_query {
@@ -140,7 +140,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
       }
       widget {
         note_definition {
-          content = "5 containers are included per Infra Host"
+          content = "${local.included_containers} containers are included per Infra Host"
           background_color = "white"
           font_size = "16"
           text_align = "left"
@@ -206,7 +206,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
           marker {
             label = " included "
-            value = "y = ${var.commited_hosts * 5}"
+            value = "y = ${var.commited_hosts * local.included_containers}"
             display_type = "error dashed"
           }
         }
@@ -234,12 +234,12 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             conditional_formats {
               comparator = "<="
-              value = var.commited_hosts * 5
+              value = var.commited_hosts * local.included_containers
               palette = "white_on_green"
             }
             conditional_formats {
               comparator = ">"
-              value = var.commited_hosts * 5
+              value = var.commited_hosts * local.included_containers
               palette = "white_on_red"
             }
           }
@@ -257,7 +257,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           title = "on-demand containers"
           request {
             formula {
-              formula_expression = "clamp_min(default_zero(query2) - max(default_zero(query1), ${var.commited_hosts}) * 5, 0)"
+              formula_expression = "clamp_min(default_zero(query2) - max(default_zero(query1), ${var.commited_hosts}) * ${local.included_containers}, 0)"
             }
             query {
               metric_query {
@@ -297,7 +297,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
       }
       widget {
         note_definition {
-          content = "100 Custom metrics are included per Infra Host"
+          content = "${local.included_metrics} Custom metrics are included per Infra Host"
           background_color = "white"
           font_size = "16"
           text_align = "left"
@@ -363,7 +363,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
           marker {
             label = " included "
-            value = "y = ${var.commited_hosts * 100}"
+            value = "y = ${var.commited_hosts * local.included_metrics}"
             display_type = "error dashed"
           }
         }
@@ -391,12 +391,12 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             conditional_formats {
               comparator = "<="
-              value = var.commited_hosts * 100
+              value = var.commited_hosts * local.included_metrics
               palette = "white_on_green"
             }
             conditional_formats {
               comparator = ">"
-              value = var.commited_hosts * 100
+              value = var.commited_hosts * local.included_metrics
               palette = "white_on_red"
             }
           }
@@ -414,7 +414,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           title = "Est. Cost for on-demand custom metrics"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query2) - max(default_zero(query1), ${var.commited_hosts}) * 100) / 100 * 0.008, 0)"
+              formula_expression = "clamp_min((default_zero(query2) - max(default_zero(query1), ${var.commited_hosts}) * ${local.included_metrics}) / 100 * 0.008, 0)"
             }
             query {
               metric_query {
@@ -456,7 +456,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
       }
       widget {
         note_definition {
-          content = "500 Custom events are included per Infra Host"
+          content = "${local.included_events} Custom events are included per Infra Host"
           background_color = "white"
           font_size = "16"
           text_align = "left"
@@ -522,7 +522,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
           marker {
             label = " included "
-            value = "y = ${var.commited_hosts * 500}"
+            value = "y = ${var.commited_hosts * local.included_events}"
             display_type = "error dashed"
           }
         }
@@ -550,12 +550,12 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             conditional_formats {
               comparator = "<="
-              value = var.commited_hosts * 500
+              value = var.commited_hosts * local.included_events
               palette = "white_on_green"
             }
             conditional_formats {
               comparator = ">"
-              value = var.commited_hosts * 500
+              value = var.commited_hosts * local.included_events
               palette = "white_on_red"
             }
           }
@@ -573,7 +573,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           title = "Est. Cost for on-demand custom events"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query2) - max(default_zero(query1), ${var.commited_hosts}) * 500) / 100000 * 3, 0)"
+              formula_expression = "clamp_min((default_zero(query2) - max(default_zero(query1), ${var.commited_hosts}) * ${local.included_events}) / 100000 * 3, 0)"
             }
             query {
               metric_query {
@@ -727,11 +727,144 @@ resource "datadog_dashboard" "ordered_dashboard" {
           title = "Est. Cost for APM (USD) on-demand pricing"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_apm_hosts}) * 36, 0)"
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_apm_hosts}) * ${local.price_on_demand_apm}, 0)"
             }
             query {
               metric_query {
                 query = "sum:datadog.estimated_usage.apm_hosts{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "="
+              value = 0
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = 0
+              palette = "white_on_yellow"
+            }
+          }
+          precision = 0
+          custom_unit = "$"
+        }
+        widget_layout {
+          x = 8
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        timeseries_definition {
+          title = "Number profiled hosts Running"
+          show_legend = true
+          legend_layout = "auto"
+          legend_columns = ["avg","min","max","value","sum"]
+          request {
+            formula {
+              formula_expression = "query1"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.profiling.hosts{*}"
+                data_source = "metrics"
+                name = "query1"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "area"
+          }
+          request {
+            formula {
+              formula_expression = "month_before(query0)"
+            }
+            on_right_yaxis = false
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.profiling.hosts{*}"
+                data_source = "metrics"
+                name = "query0"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "line"
+          }
+          yaxis {
+            include_zero = true
+            scale = "linear"
+            min = "auto"
+            max = "auto"
+          }
+          marker {
+            label = " commit "
+            value = "y = ${local.profiling_hosts_count}"
+            display_type = "error dashed"
+          }
+        }
+        widget_layout {
+          x = 0
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Number profiled hosts (count)"
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.profiling.hosts{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = local.included_containers
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = local.included_containers
+              palette = "white_on_red"
+            }
+          }
+          precision = 0
+        }
+        widget_layout {
+          x = 4
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Est. Cost for profiled hosts (USD) on-demand pricing"
+          request {
+            formula {
+              formula_expression = "clamp_min((default_zero(query1) - ${local.profiling_hosts_count}) * 16, 0)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.profiling.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -853,6 +986,16 @@ resource "datadog_dashboard" "ordered_dashboard" {
                 name = "query1"
                 aggregator = "avg"
               }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_apm_hosts * 150000000000
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_apm_hosts * 150000000000
+              palette = "white_on_red"
             }
           }
           autoscale = true
@@ -1007,6 +1150,16 @@ resource "datadog_dashboard" "ordered_dashboard" {
                 aggregator = "avg"
               }
             }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_apm_hosts * 1000000000
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_apm_hosts * 1000000000
+              palette = "white_on_red"
+            }
           }
           autoscale = true
           precision = 2
@@ -1122,6 +1275,83 @@ resource "datadog_dashboard" "ordered_dashboard" {
         }
       }
       widget {
+        query_value_definition {
+          title = "Volume of ingested logs"
+          live_span = "month_to_date"
+          request {
+            conditional_formats {
+              comparator = "<="
+              hide_value = false
+              palette = "white_on_green"
+              value = var.commited_ingested_logs * 1000000000
+            }
+            conditional_formats {
+              comparator = ">"
+              hide_value = false
+              palette = "white_on_yellow"
+              value = var.commited_ingested_logs * 1000000000
+            }
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                aggregator = "sum"
+                data_source = "metrics"
+                name = "query1"
+                query = "sum:datadog.estimated_usage.logs.ingested_bytes{*}.as_count()"
+              }
+            }
+          }
+          autoscale = true
+          precision = 2
+        }
+        widget_layout {
+          x = 4
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Est. Cost for ingesting logs (USD) on-demand"
+          live_span = "month_to_date"
+          request {
+            formula {
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_ingested_logs * 1000000000}) / 1000000000 * 0.1, 0)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.logs.ingested_bytes{*}.as_count()"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "sum"
+              }
+            }
+            conditional_formats {
+              comparator = "="
+              value = 0
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = 0
+              palette = "white_on_yellow"
+            }
+          }
+          autoscale = true
+          precision = 2
+          custom_unit = "$"
+        }
+        widget_layout {
+          x = 8
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
         timeseries_definition {
           title = "Volume of indexed logs"
           show_legend = true
@@ -1159,8 +1389,85 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
         }
         widget_layout {
+          x = 0
+          y = 2
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Volume of indexed logs"
+          live_span = "month_to_date"
+          request {
+            conditional_formats {
+              comparator = "<="
+              hide_value = false
+              palette = "white_on_green"
+              value = var.commited_indexed_logs * 1000000
+            }
+            conditional_formats {
+              comparator = ">"
+              hide_value = false
+              palette = "white_on_yellow"
+              value = var.commited_indexed_logs * 1000000
+            }
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                aggregator = "sum"
+                data_source = "metrics"
+                name = "query1"
+                query = "sum:datadog.estimated_usage.logs.ingested_events{datadog_is_excluded:false}.as_count()"
+              }
+            }
+          }
+          autoscale = true
+          precision = 2
+        }
+        widget_layout {
           x = 4
-          y = 0
+          y = 2
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Est. Cost for indexing logs (USD) on-demand"
+          live_span = "month_to_date"
+          request {
+            formula {
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_indexed_logs * 1000000}) / 2000000 * 1.59, 0)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.logs.ingested_events{datadog_is_excluded:false}.as_count()"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "sum"
+              }
+            }
+            conditional_formats {
+              comparator = "="
+              value = 0
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = 0
+              palette = "white_on_yellow"
+            }
+          }
+          autoscale = true
+          precision = 2
+          custom_unit = "$"
+        }
+        widget_layout {
+          x = 8
+          y = 2
           width = 4
           height = 2
         }
@@ -1203,84 +1510,47 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
         }
         widget_layout {
-          x = 8
-          y = 0
-          width = 4
-          height = 2
-        }
-      }
-      widget {
-        query_value_definition {
-          title = "Est. Cost for ingesting logs (USD) on-demand"
-          live_span = "month_to_date"
-          request {
-            formula {
-              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_ingested_logs * 1000000000}) / 1000000000 * 0.1, 0)"
-            }
-            query {
-              metric_query {
-                query = "sum:datadog.estimated_usage.logs.ingested_bytes{*}.as_count()"
-                data_source = "metrics"
-                name = "query1"
-                aggregator = "sum"
-              }
-            }
-            conditional_formats {
-              comparator = "="
-              value = 0
-              palette = "white_on_green"
-            }
-            conditional_formats {
-              comparator = ">"
-              value = 0
-              palette = "white_on_yellow"
-            }
-          }
-          autoscale = true
-          precision = 2
-          custom_unit = "$"
-        }
-        widget_layout {
           x = 0
-          y = 2
+          y = 4
           width = 4
           height = 2
         }
       }
       widget {
         query_value_definition {
-          title = "Est. Cost for indexing logs (USD) on-demand"
+          title = "Volume of log scaned for SDS"
           live_span = "month_to_date"
           request {
-            formula {
-              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_indexed_logs * 1000000}) / 2000000 * 1.59, 0)"
-            }
-            query {
-              metric_query {
-                query = "sum:datadog.estimated_usage.logs.ingested_events{datadog_is_excluded:false}.as_count()"
-                data_source = "metrics"
-                name = "query1"
-                aggregator = "sum"
-              }
-            }
             conditional_formats {
-              comparator = "="
-              value = 0
+              comparator = "<="
+              hide_value = false
               palette = "white_on_green"
+              value = var.commited_sds_logs * 1000000000
             }
             conditional_formats {
               comparator = ">"
-              value = 0
+              hide_value = false
               palette = "white_on_yellow"
+              value = var.commited_sds_logs * 1000000000
+            }
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                aggregator = "avg"
+                data_source = "metrics"
+                name = "query1"
+                query = "sum:datadog.estimated_usage.sds.scanned_bytes{*}.as_count()"
+              }
             }
           }
           autoscale = true
           precision = 2
-          custom_unit = "$"
         }
         widget_layout {
           x = 4
-          y = 2
+          y = 4
           width = 4
           height = 2
         }
@@ -1318,7 +1588,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
         }
         widget_layout {
           x = 8
-          y = 2
+          y = 4
           width = 4
           height = 2
         }
@@ -1406,6 +1676,16 @@ resource "datadog_dashboard" "ordered_dashboard" {
                 name = "query1"
                 aggregator = "sum"
               }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_synthetics_api * 10000
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_synthetics_api * 10000
+              palette = "white_on_red"
             }
           }
           autoscale = true
@@ -1527,6 +1807,16 @@ resource "datadog_dashboard" "ordered_dashboard" {
                 aggregator = "sum"
               }
             }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_synthetics_browser * 1000
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_synthetics_browser * 1000
+              palette = "white_on_red"
+            }
           }
           autoscale = true
           precision = 0
@@ -1647,6 +1937,16 @@ resource "datadog_dashboard" "ordered_dashboard" {
                 name = "query1"
                 aggregator = "sum"
               }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_synthetics_mobile * 100
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_synthetics_mobile * 100
+              palette = "white_on_red"
             }
           }
           autoscale = true
@@ -1785,6 +2085,16 @@ resource "datadog_dashboard" "ordered_dashboard" {
                 name = "query1"
                 aggregator = "max"
               }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_dbm_hosts
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_dbm_hosts
+              palette = "white_on_red"
             }
           }
           precision = 0
