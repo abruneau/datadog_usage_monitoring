@@ -3,7 +3,7 @@ resource "datadog_monitor" "logs_ingested_month" {
   type    = "metric alert"
   message = "Nb of log ingested is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.logs.ingested_bytes{*}.as_count()  > ${var.commited_ingested_logs * 1000000000}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -17,7 +17,7 @@ resource "datadog_monitor" "logs_indexed_month" {
   type    = "metric alert"
   message = "Nb of logs indexed is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.logs.ingested_events{datadog_is_excluded:false}.as_count()  > ${var.commited_indexed_logs * 1000000}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -31,7 +31,7 @@ resource "datadog_monitor" "logs_ingested_day" {
   type    = "metric alert"
   message = "Nb of log ingested is too high!"
   query   = "sum(current_1d):sum:datadog.estimated_usage.logs.ingested_bytes{*}.as_count()  > ${var.commited_ingested_logs * 1000000000 / 30}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       day_starts = "00:00"
@@ -44,7 +44,7 @@ resource "datadog_monitor" "logs_indexed_day" {
   type    = "metric alert"
   message = "Nb of logs indexed is too high!"
   query   = "sum(current_1d):sum:datadog.estimated_usage.logs.ingested_events{datadog_is_excluded:false}.as_count()  > ${var.commited_indexed_logs * 1000000 / 30}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       day_starts = "00:00"
@@ -57,7 +57,7 @@ resource "datadog_monitor" "logs_sds_month" {
   type    = "metric alert"
   message = "Nb of log scaned is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.sds.scanned_bytes{*}.as_count()  > ${var.commited_sds_logs * 1000000000}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -71,7 +71,7 @@ resource "datadog_monitor" "logs_sds_day" {
   type    = "metric alert"
   message = "Nb of log scaned is too high!"
   query   = "sum(current_1d):sum:datadog.estimated_usage.sds.scanned_bytes{*}.as_count()  > ${var.commited_sds_logs * 1000000000 / 30}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       day_starts = "00:00"

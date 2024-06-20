@@ -3,7 +3,7 @@ resource "datadog_monitor" "synthetics_api_month" {
   type    = "metric alert"
   message = "Nb of synthetics api tests run is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.synthetics.api_test_runs{*}.as_count()  > ${var.commited_synthetics_api * 10000}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -17,7 +17,7 @@ resource "datadog_monitor" "synthetics_api_day" {
   type    = "metric alert"
   message = "Nb of synthetics api tests run is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.synthetics.api_test_runs{*}.as_count()  > ${var.commited_synthetics_api * 10000 / 30}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -31,7 +31,7 @@ resource "datadog_monitor" "synthetics_browser_month" {
   type    = "metric alert"
   message = "Nb of synthetics browser tests run is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.synthetics.browser_test_runs{*}.as_count()  > ${var.commited_synthetics_browser * 1000}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -45,7 +45,7 @@ resource "datadog_monitor" "synthetics_browser_day" {
   type    = "metric alert"
   message = "Nb of synthetics browser tests run is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.synthetics.browser_test_runs{*}.as_count()  > ${var.commited_synthetics_browser * 1000 / 30}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -59,7 +59,7 @@ resource "datadog_monitor" "synthetics_mobile_month" {
   type    = "metric alert"
   message = "Nb of synthetics mobile tests run is too high!"
   query   = "sum(current_1mo):sum:synthetics.test_runs{check_type:mobile_app}.as_count()  > ${var.commited_synthetics_mobile * 50}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -73,7 +73,7 @@ resource "datadog_monitor" "synthetics_mobile_day" {
   type    = "metric alert"
   message = "Nb of synthetics mobile tests run is too high!"
   query   = "sum(current_1mo):sum:synthetics.test_runs{check_type:mobile_app}.as_count()  > ${var.commited_synthetics_mobile * 50 / 30}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1

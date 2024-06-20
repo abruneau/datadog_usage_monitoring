@@ -3,7 +3,7 @@ resource "datadog_monitor" "host_count" {
   type    = "metric alert"
   message = "Nb of hosts is too high!"
   query   = "max(last_10m):max:datadog.estimated_usage.hosts{*}  > ${var.commited_hosts}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
 }
 
 resource "datadog_monitor" "container_count" {
@@ -11,7 +11,7 @@ resource "datadog_monitor" "container_count" {
   type    = "metric alert"
   message = "Nb of containers is too high!"
   query   = "max(last_10m):max:datadog.estimated_usage.containers{*}  > ${var.commited_hosts * local.included_containers}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
 }
 
 resource "datadog_monitor" "custom_metrics" {
@@ -19,7 +19,7 @@ resource "datadog_monitor" "custom_metrics" {
   type    = "metric alert"
   message = "Nb of custom metrics is too high!"
   query   = "max(last_10m):max:datadog.estimated_usage.metrics.custom{*}  > ${var.commited_hosts * local.included_metrics}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
 }
 
 resource "datadog_monitor" "custom_events" {
@@ -27,5 +27,5 @@ resource "datadog_monitor" "custom_events" {
   type    = "metric alert"
   message = "Nb of custom events is too high!"
   query   = "max(last_10m):max:datadog.estimated_usage.events.custom_events{*}  > ${var.commited_hosts * local.included_events}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
 }

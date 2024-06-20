@@ -3,7 +3,7 @@ resource "datadog_monitor" "op_ingested_month" {
   type    = "metric alert"
   message = "Nb of log ingested is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.observability_pipelines.ingested_bytes{*}.as_count()  > ${var.commited_op_ingested_logs * 1000000000}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -17,7 +17,7 @@ resource "datadog_monitor" "op_ingested_day" {
   type    = "metric alert"
   message = "Nb of log ingested is too high!"
   query   = "sum(current_1d):sum:datadog.estimated_usage.observability_pipelines.ingested_bytes{*}.as_count()  > ${var.commited_op_ingested_logs * 1000000000 / 30}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       day_starts = "00:00"

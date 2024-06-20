@@ -1,3 +1,8 @@
+variable "monitors_tags" {
+  type = set(string)
+  default = ["service:datadog_usage"]
+}
+
 variable "commited_hosts" {
   type = number
   default = 0

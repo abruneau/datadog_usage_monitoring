@@ -3,7 +3,7 @@ resource "datadog_monitor" "apm_host_count" {
   type    = "metric alert"
   message = "Nb of hosts is too high!"
   query   = "max(last_10m):max:datadog.estimated_usage.apm_hosts{*}  > ${var.commited_apm_hosts}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
 }
 
 resource "datadog_monitor" "profiling_host_count" {
@@ -11,7 +11,7 @@ resource "datadog_monitor" "profiling_host_count" {
   type    = "metric alert"
   message = "Nb of hosts is too high!"
   query   = "max(last_10m):max:datadog.estimated_usage.profiling.hosts{*}  > ${local.profiling_hosts_count}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
 }
 
 resource "datadog_monitor" "apm_ingested_spans_month" {
@@ -19,7 +19,7 @@ resource "datadog_monitor" "apm_ingested_spans_month" {
   type    = "metric alert"
   message = "Nb of APM ingested spans is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()  > ${var.commited_apm_hosts * 150000000000}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -33,7 +33,7 @@ resource "datadog_monitor" "apm_indexed_spans_month" {
   type    = "metric alert"
   message = "Nb of APM indexed spans is too high!"
   query   = "sum(current_1mo):sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()  > ${var.commited_apm_hosts * 1000000000}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       month_starts = 1
@@ -47,7 +47,7 @@ resource "datadog_monitor" "apm_ingested_spans_day" {
   type    = "metric alert"
   message = "Nb of APM ingested spans is too high!"
   query   = "sum(current_1d):sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()  > ${var.commited_apm_hosts * 150000000000 / 30}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       day_starts = "00:00"
@@ -60,7 +60,7 @@ resource "datadog_monitor" "apm_indexed_spans_day" {
   type    = "metric alert"
   message = "Nb of APM indexed spans is too high!"
   query   = "sum(current_1d):sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()  > ${var.commited_apm_hosts * 1000000000 / 30}"
-  tags    = ["service:datadog_usage"]
+  tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
       day_starts = "00:00"
