@@ -1,4 +1,4 @@
-resource "datadog_dashboard" "ordered_dashboard" {
+resource "datadog_dashboard" "cost_dashboard" {
   title = "Cost/Usage overview"
   description = "created with Terraform by Datadog support team"
   widget {
