@@ -967,7 +967,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:datadog.estimated_usage.apm.ingested_bytes{*}"
+                query = "sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -986,7 +986,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:datadog.estimated_usage.apm.ingested_bytes{*}"
+                query = "sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -1000,7 +1000,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
           marker {
             label = " included "
-            value = "y = ${var.commited_apm_hosts * 150000000000}"
+            value = "y = ${local.allotment_ingested_spans}"
             display_type = "error dashed"
           }
           yaxis {
@@ -1027,20 +1027,20 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:datadog.estimated_usage.apm.ingested_bytes{*}"
+                query = "sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()"
                 data_source = "metrics"
                 name = "query1"
-                aggregator = "avg"
+                aggregator = "sum"
               }
             }
             conditional_formats {
               comparator = "<="
-              value = var.commited_apm_hosts * 150000000000
+              value = local.allotment_ingested_spans
               palette = "white_on_green"
             }
             conditional_formats {
               comparator = ">"
-              value = var.commited_apm_hosts * 150000000000
+              value = local.allotment_ingested_spans
               palette = "white_on_red"
             }
           }
@@ -1060,14 +1060,14 @@ resource "datadog_dashboard" "ordered_dashboard" {
           live_span = "month_to_date"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query1) / 150000000000 - max(query2, ${var.commited_apm_hosts}) * 150) * 0.1, 0)"
+              formula_expression = "clamp_min((default_zero(query1) / ${150 * local.gb_to_b} - max(query2, ${var.commited_apm_hosts}) * 150) * 0.1, 0)"
             }
             query {
               metric_query {
-                query = "sum:datadog.estimated_usage.apm.ingested_bytes{*}"
+                query = "sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()"
                 data_source = "metrics"
                 name = "query1"
-                aggregator = "avg"
+                aggregator = "sum"
               }
             }
             query {
@@ -1075,7 +1075,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
                 query = "sum:datadog.estimated_usage.apm_hosts{*}"
                 data_source = "metrics"
                 name = "query2"
-                aggregator = "avg"
+                aggregator = "max"
               }
             }
             conditional_formats {
@@ -1130,7 +1130,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:datadog.estimated_usage.apm.indexed_spans{*}"
+                query = "sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -1149,7 +1149,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:datadog.estimated_usage.apm.indexed_spans{*}"
+                query = "sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -1163,7 +1163,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
           marker {
             label = " included "
-            value = "y = ${var.commited_apm_hosts * 1000000000}"
+            value = "y = ${local.allotment_indexed_spans}"
             display_type = "error dashed"
           }
           yaxis {
@@ -1190,20 +1190,20 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:datadog.estimated_usage.apm.indexed_spans{*}"
+                query = "sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()"
                 data_source = "metrics"
                 name = "query1"
-                aggregator = "avg"
+                aggregator = "sum"
               }
             }
             conditional_formats {
               comparator = "<="
-              value = var.commited_apm_hosts * 1000000000
+              value = local.allotment_indexed_spans
               palette = "white_on_green"
             }
             conditional_formats {
               comparator = ">"
-              value = var.commited_apm_hosts * 1000000000
+              value = local.allotment_indexed_spans
               palette = "white_on_red"
             }
           }
@@ -1224,22 +1224,14 @@ resource "datadog_dashboard" "ordered_dashboard" {
           live_span = "month_to_date"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query1) / 1000000 - max(query2, ${var.commited_apm_hosts})) * 2.55, 0)"
+              formula_expression = "clamp_min((default_zero(query1) - ${local.allotment_indexed_spans}) / ${local.million} * 2.55, 0)"
             }
             query {
               metric_query {
-                query = "sum:datadog.estimated_usage.apm.indexed_spans{*}"
+                query = "sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()"
                 data_source = "metrics"
                 name = "query1"
-                aggregator = "avg"
-              }
-            }
-            query {
-              metric_query {
-                query = "sum:datadog.estimated_usage.apm_hosts{*}"
-                data_source = "metrics"
-                name = "query2"
-                aggregator = "avg"
+                aggregator = "sum"
               }
             }
             conditional_formats {
@@ -1309,7 +1301,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
           marker {
             label = " commit "
-            value = "y = ${var.commited_ingested_logs * 1000000000}"
+            value = "y = ${var.commited_ingested_logs * local.gb_to_b}"
             display_type = "error dashed"
           }
         }
@@ -1329,13 +1321,13 @@ resource "datadog_dashboard" "ordered_dashboard" {
               comparator = "<="
               hide_value = false
               palette = "white_on_green"
-              value = var.commited_ingested_logs * 1000000000
+              value = var.commited_ingested_logs * local.gb_to_b
             }
             conditional_formats {
               comparator = ">"
               hide_value = false
               palette = "white_on_yellow"
-              value = var.commited_ingested_logs * 1000000000
+              value = var.commited_ingested_logs * local.gb_to_b
             }
             formula {
               formula_expression = "default_zero(query1)"
@@ -1365,7 +1357,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           live_span = "month_to_date"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_ingested_logs * 1000000000}) / 1000000000 * 0.1, 0)"
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_ingested_logs * local.gb_to_b}) / ${local.gb_to_b} * 0.1, 0)"
             }
             query {
               metric_query {
@@ -1551,7 +1543,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
           marker {
             label = " commit "
-            value = "y = ${var.commited_sds_logs * 1000000000}"
+            value = "y = ${var.commited_sds_logs * local.gb_to_b}"
             display_type = "error dashed"
           }
         }
@@ -1571,13 +1563,13 @@ resource "datadog_dashboard" "ordered_dashboard" {
               comparator = "<="
               hide_value = false
               palette = "white_on_green"
-              value = var.commited_sds_logs * 1000000000
+              value = var.commited_sds_logs * local.gb_to_b
             }
             conditional_formats {
               comparator = ">"
               hide_value = false
               palette = "white_on_yellow"
-              value = var.commited_sds_logs * 1000000000
+              value = var.commited_sds_logs * local.gb_to_b
             }
             formula {
               formula_expression = "default_zero(query1)"
@@ -1607,7 +1599,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           live_span = "month_to_date"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query1) / ${var.commited_sds_logs * 1000000000} - 200) * 0.45, 0)"
+              formula_expression = "clamp_min((default_zero(query1) / ${var.commited_sds_logs * local.gb_to_b} - 200) * 0.45, 0)"
             }
             query {
               metric_query {
@@ -2230,7 +2222,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           }
           marker {
             label = " commit "
-            value = "y = ${var.commited_op_ingested_logs * 1000000000}"
+            value = "y = ${var.commited_op_ingested_logs * local.gb_to_b}"
             display_type = "error dashed"
           }
         }
@@ -2261,12 +2253,12 @@ resource "datadog_dashboard" "ordered_dashboard" {
             }
             conditional_formats {
               comparator = "<="
-              value = var.commited_op_ingested_logs * 1000000000
+              value = var.commited_op_ingested_logs * local.gb_to_b
               palette = "white_on_green"
             }
             conditional_formats {
               comparator = ">"
-              value = var.commited_op_ingested_logs * 1000000000
+              value = var.commited_op_ingested_logs * local.gb_to_b
               palette = "white_on_red"
             }
           }
@@ -2288,7 +2280,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
           live_span = "month_to_date"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query1) / 1000000000 - ${var.commited_op_ingested_logs}) * 0.12, 0)"
+              formula_expression = "clamp_min((default_zero(query1) / ${local.gb_to_b} - ${var.commited_op_ingested_logs}) * 0.12, 0)"
             }
             query {
               metric_query {

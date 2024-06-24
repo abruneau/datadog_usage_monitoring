@@ -1,3 +1,8 @@
+locals {
+  million = 1000000
+  gb_to_b = 1000000000
+}
+
 variable "monitors_tags" {
   type = set(string)
   default = ["service:datadog_usage", "terraform:true", "team:datadog_support", "env:usage"]
@@ -29,6 +34,12 @@ variable "commited_apm_hosts" {
   default = 0
 }
 
+variable "commited_additional_indexed_spans" {
+  type = number
+  default = 0
+  description = "value in million spans"
+}
+
 variable "apm_type" {
   type = string
   default = "standard"
@@ -47,6 +58,8 @@ variable "commited_profiling_hosts" {
 locals {
   price_on_demand_apm = var.apm_type == "standard" ? 36 : (var.apm_type == "pro" ? 42 : 48)
   profiling_hosts_count = var.apm_type == "enterprise" ? var.commited_apm_hosts : var.commited_profiling_hosts
+  allotment_ingested_spans = var.commited_apm_hosts * 150 * local.gb_to_b
+  allotment_indexed_spans = (var.commited_apm_hosts + var.commited_additional_indexed_spans) * local.million
 }
 
 variable "commited_ingested_logs" {

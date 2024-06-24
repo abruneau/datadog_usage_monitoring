@@ -18,7 +18,7 @@ resource "datadog_monitor" "apm_ingested_spans_month" {
   name    = "[APM] Monthly number of APM ingested spans"
   type    = "metric alert"
   message = "Nb of APM ingested spans is too high!"
-  query   = "sum(current_1mo):sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()  > ${var.commited_apm_hosts * 150000000000}"
+  query   = "sum(current_1mo):sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()  > ${local.allotment_ingested_spans}"
   tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
@@ -32,7 +32,7 @@ resource "datadog_monitor" "apm_indexed_spans_month" {
   name    = "[APM] Monthly number of APM indexed spans"
   type    = "metric alert"
   message = "Nb of APM indexed spans is too high!"
-  query   = "sum(current_1mo):sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()  > ${var.commited_apm_hosts * 1000000000}"
+  query   = "sum(current_1mo):sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()  > ${local.allotment_indexed_spans}"
   tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
@@ -46,7 +46,7 @@ resource "datadog_monitor" "apm_ingested_spans_day" {
   name    = "[APM] Daily number of APM ingested spans"
   type    = "metric alert"
   message = "Nb of APM ingested spans is too high!"
-  query   = "sum(current_1d):sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()  > ${var.commited_apm_hosts * 150000000000 / 30}"
+  query   = "sum(current_1d):sum:datadog.estimated_usage.apm.ingested_bytes{*}.as_count()  > ${local.allotment_ingested_spans / 30}"
   tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
@@ -59,7 +59,7 @@ resource "datadog_monitor" "apm_indexed_spans_day" {
   name    = "[APM] Daily number of APM indexed spans"
   type    = "metric alert"
   message = "Nb of APM indexed spans is too high!"
-  query   = "sum(current_1d):sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()  > ${var.commited_apm_hosts * 1000000000 / 30}"
+  query   = "sum(current_1d):sum:datadog.estimated_usage.apm.indexed_spans{*}.as_count()  > ${local.allotment_indexed_spans / 30}"
   tags    = var.monitors_tags
   scheduling_options {
     evaluation_window {
