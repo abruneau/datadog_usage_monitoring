@@ -1,3 +1,15 @@
+# Screenshots
+
+## Cost & Usage Dashboard
+
+![](./img/cost_usage.png)
+
+## Tagging Analysis
+
+![](./img/datadog_tagging_analysis.png)
+
+# Terraform Module
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
