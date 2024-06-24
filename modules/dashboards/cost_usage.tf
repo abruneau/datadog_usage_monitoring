@@ -2,6 +2,52 @@ resource "datadog_dashboard" "ordered_dashboard" {
   title = "Cost/Usage overview"
   description = "created with Terraform by Datadog support team"
   widget {
+    note_definition {
+      content = "# Billing\n\nTo get started: [Account Management / Billing Doc](https://docs.datadoghq.com/account_management/billing)\n\nThis dashboard provides an overview of the different usage metrics for Datadog. These are usage metrics, not billing metrics, and they **do not correlate 100% to billing**. These should only be used as a proxy to identify trends.\n\nThose metrics can also be used to identify the biggest consumers with a selected tag.\n\n## Disclaimer\n\nAll the information provided here have been copied from the doc at a specific date and are here for indications. They are subject to changes, please refer to the link provided for official information."
+      background_color = "purple"
+      font_size = "14"
+      text_align = "left"
+      show_tick = false
+      tick_pos = "50%"
+      tick_edge = "left"
+    }
+    widget_layout {
+      x = 0
+      y = 0
+      width = 5
+      height = 5
+    }
+  }
+  widget {
+    note_definition {
+      content = "## Usage\n\nUsage is reported into the platform on a daily basis.\n\n[Usage page](/billing/usage)\n\n## Multi-org usage\n\nIn the [Usage page](/billing/usage), click on \"Individual Organizations\" tab to get a list of usage per sub-organization."
+      background_color = "purple"
+      font_size = "14"
+      text_align = "left"
+      show_tick = false
+      tick_pos = "50%"
+      tick_edge = "left"
+    }
+    widget_layout {
+      x = 5
+      y = 0
+      width = 3
+      height = 5
+    }
+  }
+  widget {
+    image_definition {
+      url = "https://imgix.datadoghq.com/img/about/presskit/logo-v/dd_vertical_white.png?auto=format&fit=max&w=847"
+      sizing = "zoom"
+    }
+    widget_layout {
+      x = 8
+      y = 0
+      width = 4
+      height = 5
+    }
+  }
+  widget {
     group_definition {
       title = "Infrastructure"
       layout_type = "ordered"
@@ -616,7 +662,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 0
+      y = 5
       width = 12
       height = 9
     }
@@ -1221,7 +1267,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 9
+      y = 14
       width = 12
       height = 7
     }
@@ -1596,7 +1642,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 16
+      y = 21
       width = 12
       height = 5
     }
@@ -2000,7 +2046,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 21
+      y = 26
       width = 12
       height = 7
     }
@@ -2145,7 +2191,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 28
+      y = 32
       width = 12
       height = 3
       is_column_break = true
@@ -2277,7 +2323,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 31
+      y = 36
       width = 12
       height = 3
     }
@@ -2527,7 +2573,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 34
+      y = 39
       width = 12
       height = 5
     }
@@ -2771,7 +2817,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 39
+      y = 44
       width = 12
       height = 5
     }
@@ -3049,7 +3095,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 44
+      y = 49
       width = 12
       height = 3
     }
@@ -3194,7 +3240,7 @@ resource "datadog_dashboard" "ordered_dashboard" {
     }
     widget_layout {
       x = 0
-      y = 47
+      y = 52
       width = 12
       height = 3
     }
