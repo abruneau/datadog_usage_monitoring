@@ -34,6 +34,7 @@ module "monitors" {
   commited_network_hosts                     = var.commited_network_hosts
   commited_network_devices                   = var.commited_network_devices
   commited_asm_sca_hosts                     = var.commited_asm_sca_hosts
+  monitors_tags                              = var.monitors_tags
 }
 
 module "dashboards" {
