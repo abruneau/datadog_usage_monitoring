@@ -1480,7 +1480,7 @@ resource "datadog_dashboard" "tagging_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:docker.containers.running{$env,$cost_center,$team,$service} by {service}"
+                query = "sum:kubernetes.containers.running{$env,$cost_center,$team,$service} by {service}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "avg"
@@ -1504,7 +1504,7 @@ resource "datadog_dashboard" "tagging_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:docker.containers.running{$env,$team,$service,$cost_center} by {service,env}"
+                query = "sum:kubernetes.containers.running{$env,$team,$service,$cost_center} by {service,env}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "avg"
@@ -1528,7 +1528,7 @@ resource "datadog_dashboard" "tagging_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:docker.containers.running{$env,$team,$service,$cost_center} by {service,team}"
+                query = "sum:kubernetes.containers.running{$env,$team,$service,$cost_center} by {service,team}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "avg"
@@ -1552,7 +1552,7 @@ resource "datadog_dashboard" "tagging_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:docker.containers.running{$env,$team,$service,$cost_center} by {service,cost_center}"
+                query = "sum:kubernetes.containers.running{$env,$team,$service,$cost_center} by {service,cost_center}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "avg"
@@ -1576,7 +1576,7 @@ resource "datadog_dashboard" "tagging_dashboard" {
             }
             query {
               metric_query {
-                query = "sum:docker.containers.running{$env,$team,$service,$cost_center} by {service,version}"
+                query = "sum:kubernetes.containers.running{$env,$team,$service,$cost_center} by {service,version}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "avg"
