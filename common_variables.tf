@@ -1,6 +1,6 @@
 variable "monitors_tags" {
   type = set(string)
-  default = ["service:datadog_usage", "terraform:true", "team:datadog_support"]
+  default = ["service:datadog_usage", "terraform:true", "team:datadog_support", "env:usage"]
 }
 
 variable "commited_hosts" {
