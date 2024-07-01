@@ -17,6 +17,7 @@ module "monitors" {
   commited_hosts                             = var.commited_hosts
   host_type                                  = var.host_type
   commited_apm_hosts                         = var.commited_apm_hosts
+  commited_additional_indexed_spans          = var.commited_additional_indexed_spans
   apm_type                                   = var.apm_type
   commited_profiling_hosts                   = var.commited_profiling_hosts
   commited_ingested_logs                     = var.commited_ingested_logs
@@ -42,6 +43,7 @@ module "dashboards" {
   commited_hosts                             = var.commited_hosts
   host_type                                  = var.host_type
   commited_apm_hosts                         = var.commited_apm_hosts
+  commited_additional_indexed_spans          = var.commited_additional_indexed_spans
   apm_type                                   = var.apm_type
   commited_profiling_hosts                   = var.commited_profiling_hosts
   commited_ingested_logs                     = var.commited_ingested_logs

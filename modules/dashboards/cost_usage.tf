@@ -63,7 +63,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.hosts{*}"
+                query = "sum:datadog.estimated_usage.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -82,7 +82,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             on_right_yaxis = false
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.hosts{*}"
+                query = "sum:datadog.estimated_usage.hosts{*}"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -122,7 +122,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.hosts{*}"
+                query = "sum:datadog.estimated_usage.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -157,7 +157,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.hosts{*}"
+                query = "sum:datadog.estimated_usage.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -213,7 +213,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.containers{*}"
+                query = "sum:datadog.estimated_usage.containers{*}"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -232,7 +232,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             on_right_yaxis = false
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.containers{*}"
+                query = "sum:datadog.estimated_usage.containers{*}"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -272,7 +272,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.containers{*}"
+                query = "sum:datadog.estimated_usage.containers{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -307,7 +307,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.containers{*}"
+                query = "sum:datadog.estimated_usage.containers{*}"
                 data_source = "metrics"
                 name = "query2"
                 aggregator = "max"
@@ -315,7 +315,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.hosts{*}"
+                query = "sum:datadog.estimated_usage.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -370,7 +370,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.metrics.custom{*}"
+                query = "sum:datadog.estimated_usage.metrics.custom{*}"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -389,7 +389,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.metrics.custom{*}"
+                query = "sum:datadog.estimated_usage.metrics.custom{*}"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -429,7 +429,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.metrics.custom{*}"
+                query = "sum:datadog.estimated_usage.metrics.custom{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -464,7 +464,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.metrics.custom{*}"
+                query = "sum:datadog.estimated_usage.metrics.custom{*}"
                 data_source = "metrics"
                 name = "query2"
                 aggregator = "max"
@@ -472,7 +472,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.hosts{*}"
+                query = "sum:datadog.estimated_usage.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -529,7 +529,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.events.custom_events{*}"
+                query = "sum:datadog.estimated_usage.events.custom_events{*}"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -548,7 +548,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.events.custom_events{*}"
+                query = "sum:datadog.estimated_usage.events.custom_events{*}"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -588,7 +588,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.events.custom_events{*}"
+                query = "sum:datadog.estimated_usage.events.custom_events{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -623,7 +623,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.events.custom_events{*}"
+                query = "sum:datadog.estimated_usage.events.custom_events{*}"
                 data_source = "metrics"
                 name = "query2"
                 aggregator = "max"
@@ -631,7 +631,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.hosts{*}"
+                query = "sum:datadog.estimated_usage.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -2059,7 +2059,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.dbm.hosts{*}"
+                query = "sum:datadog.estimated_usage.dbm.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -2078,7 +2078,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             on_right_yaxis = false
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.dbm.hosts{*}"
+                query = "sum:datadog.estimated_usage.dbm.hosts{*}"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -2341,7 +2341,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.rum.sessions{sku:replay}"
+                query = "sum:datadog.estimated_usage.rum.sessions{sku:replay}"
               }
             }
             style {
@@ -2378,7 +2378,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.rum.sessions{sku:replay}"
+                query = "sum:datadog.estimated_usage.rum.sessions{sku:replay}"
                 aggregator = "avg"
               }
             }
@@ -2417,7 +2417,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.rum.sessions{sku:replay}"
+                query = "sum:datadog.estimated_usage.rum.sessions{sku:replay}"
                 aggregator = "avg"
               }
             }
@@ -2460,7 +2460,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.rum.sessions{! sku:replay}"
+                query = "sum:datadog.estimated_usage.rum.sessions{! sku:replay}"
               }
             }
             style {
@@ -2497,7 +2497,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.rum.sessions{!sku:replay}"
+                query = "sum:datadog.estimated_usage.rum.sessions{!sku:replay}"
                 aggregator = "sum"
               }
             }
@@ -2536,7 +2536,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.rum.sessions{!sku:replay}"
+                query = "sum:datadog.estimated_usage.rum.sessions{!sku:replay}"
                 aggregator = "avg"
               }
             }
@@ -2590,7 +2590,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.ci_visibility.pipeline.committers{*}"
+                query = "sum:datadog.estimated_usage.ci_visibility.pipeline.committers{*}"
               }
             }
             style {
@@ -2626,7 +2626,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.ci_visibility.pipeline.committers{*}"
+                query = "sum:datadog.estimated_usage.ci_visibility.pipeline.committers{*}"
                 aggregator = "avg"
               }
             }
@@ -2664,7 +2664,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.ci_visibility.pipeline.committers{*}"
+                query = "sum:datadog.estimated_usage.ci_visibility.pipeline.committers{*}"
                 aggregator = "avg"
               }
             }
@@ -2706,7 +2706,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.ci_visibility.test.committers{*}"
+                query = "sum:datadog.estimated_usage.ci_visibility.test.committers{*}"
               }
             }
             style {
@@ -2742,7 +2742,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.ci_visibility.test.committers{*}"
+                query = "sum:datadog.estimated_usage.ci_visibility.test.committers{*}"
                 aggregator = "avg"
               }
             }
@@ -2780,7 +2780,7 @@ resource "datadog_dashboard" "cost_dashboard" {
               metric_query {
                 name = "query1"
                 data_source = "metrics"
-                query = "avg:datadog.estimated_usage.ci_visibility.test.committers{*}"
+                query = "sum:datadog.estimated_usage.ci_visibility.test.committers{*}"
                 aggregator = "avg"
               }
             }
@@ -2830,7 +2830,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.network.hosts{*}"
+                query = "sum:datadog.estimated_usage.network.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -2849,7 +2849,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.network.hosts{*}"
+                query = "sum:datadog.estimated_usage.network.hosts{*}"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -2889,7 +2889,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.network.hosts{*}"
+                query = "sum:datadog.estimated_usage.network.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -2924,7 +2924,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.network.hosts{*}"
+                query = "sum:datadog.estimated_usage.network.hosts{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -2963,7 +2963,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.network.devices{*}"
+                query = "sum:datadog.estimated_usage.network.devices{*}"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -2982,7 +2982,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.network.devices{*}"
+                query = "sum:datadog.estimated_usage.network.devices{*}"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -3022,7 +3022,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.network.devices{*}"
+                query = "sum:datadog.estimated_usage.network.devices{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -3057,7 +3057,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.network.devices{*}"
+                query = "sum:datadog.estimated_usage.network.devices{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -3108,7 +3108,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
+                query = "sum:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
                 data_source = "metrics"
                 name = "query1"
               }
@@ -3127,7 +3127,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
+                query = "sum:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
                 data_source = "metrics"
                 name = "query0"
               }
@@ -3167,7 +3167,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
+                query = "sum:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
@@ -3202,7 +3202,7 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             query {
               metric_query {
-                query = "avg:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
+                query = "sum:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"
