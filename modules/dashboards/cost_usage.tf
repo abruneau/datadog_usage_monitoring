@@ -2003,7 +2003,7 @@ resource "datadog_dashboard" "cost_dashboard" {
           live_span = "month_to_date"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_synthetics_mobile}) / 100 * 72, 0)"
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_synthetics_mobile * 100}) / 100 * 72, 0)"
             }
             query {
               metric_query {
