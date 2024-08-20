@@ -185,6 +185,139 @@ resource "datadog_dashboard" "cost_dashboard" {
         }
       }
       widget {
+        timeseries_definition {
+          title = "Number of container apps running"
+          show_legend = true
+          legend_layout = "auto"
+          legend_columns = ["avg","min","max","value","sum"]
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "sum:azure.app_containerapps.count{*}"
+                data_source = "metrics"
+                name = "query1"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "area"
+          }
+          request {
+            formula {
+              formula_expression = "month_before(query0)"
+            }
+            on_right_yaxis = false
+            query {
+              metric_query {
+                query = "sum:azure.app_containerapps.count{*}"
+                data_source = "metrics"
+                name = "query0"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "line"
+          }
+          yaxis {
+            include_zero = true
+            scale = "linear"
+            min = "auto"
+            max = "auto"
+          }
+          marker {
+            label = " commit "
+            value = "y = ${var.commited_container_apps}"
+            display_type = "error dashed"
+          }
+        }
+        widget_layout {
+          x = 0
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Number of container apps running (count)"
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "sum:azure.app_containerapps.count{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_container_apps
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_container_apps
+              palette = "white_on_red"
+            }
+          }
+          precision = 0
+        }
+        widget_layout {
+          x = 4
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Est. Cost for container apps (USD) on-demand"
+          request {
+            formula {
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_container_apps}) * ${local.price_on_demand_container_app}, 0)"
+            }
+            query {
+              metric_query {
+                query = "sum:azure.app_containerapps.count{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "="
+              value = 0
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = 0
+              palette = "white_on_yellow"
+            }
+          }
+          precision = 0
+          custom_unit = "$"
+        }
+        widget_layout {
+          x = 8
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
         note_definition {
           content = "${local.included_containers} containers are included per Infra Host"
           background_color = "white"
@@ -883,12 +1016,12 @@ resource "datadog_dashboard" "cost_dashboard" {
             }
             conditional_formats {
               comparator = "<="
-              value = local.included_containers
+              value = local.profiling_hosts_count
               palette = "white_on_green"
             }
             conditional_formats {
               comparator = ">"
-              value = local.included_containers
+              value = local.profiling_hosts_count
               palette = "white_on_red"
             }
           }
@@ -2627,7 +2760,7 @@ resource "datadog_dashboard" "cost_dashboard" {
                 name = "query1"
                 data_source = "metrics"
                 query = "sum:datadog.estimated_usage.ci_visibility.pipeline.committers{*}"
-                aggregator = "avg"
+                aggregator = "max"
               }
             }
             conditional_formats {
@@ -2665,7 +2798,7 @@ resource "datadog_dashboard" "cost_dashboard" {
                 name = "query1"
                 data_source = "metrics"
                 query = "sum:datadog.estimated_usage.ci_visibility.pipeline.committers{*}"
-                aggregator = "avg"
+                aggregator = "max"
               }
             }
             conditional_formats {
@@ -2743,7 +2876,7 @@ resource "datadog_dashboard" "cost_dashboard" {
                 name = "query1"
                 data_source = "metrics"
                 query = "sum:datadog.estimated_usage.ci_visibility.test.committers{*}"
-                aggregator = "avg"
+                aggregator = "max"
               }
             }
             conditional_formats {
@@ -2781,7 +2914,7 @@ resource "datadog_dashboard" "cost_dashboard" {
                 name = "query1"
                 data_source = "metrics"
                 query = "sum:datadog.estimated_usage.ci_visibility.test.committers{*}"
-                aggregator = "avg"
+                aggregator = "max"
               }
             }
             conditional_formats {

@@ -15,6 +15,7 @@ provider "datadog" {
 module "monitors" {
   source                                     = "./modules/monitors"
   commited_hosts                             = var.commited_hosts
+  commited_container_apps                    = var.commited_container_apps
   host_type                                  = var.host_type
   commited_apm_hosts                         = var.commited_apm_hosts
   commited_additional_indexed_spans          = var.commited_additional_indexed_spans
@@ -41,6 +42,7 @@ module "monitors" {
 module "dashboards" {
   source                                     = "./modules/dashboards"
   commited_hosts                             = var.commited_hosts
+  commited_container_apps                    = var.commited_container_apps
   host_type                                  = var.host_type
   commited_apm_hosts                         = var.commited_apm_hosts
   commited_additional_indexed_spans          = var.commited_additional_indexed_spans

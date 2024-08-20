@@ -29,6 +29,15 @@ locals{
   price_on_demand_host = var.host_type == "pro" ? 18 : 27
 }
 
+variable "commited_container_apps" {
+  type = number
+  default = 0
+}
+
+locals {
+  price_on_demand_container_app = 3
+}
+
 variable "commited_apm_hosts" {
   type = number
   default = 0
