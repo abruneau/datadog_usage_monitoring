@@ -792,6 +792,272 @@ resource "datadog_dashboard" "cost_dashboard" {
           height = 2
         }
       }
+      widget {
+        timeseries_definition {
+          title = "Number of Serverless Workload (Lambda)"
+          show_legend = true
+          legend_layout = "auto"
+          legend_columns = ["avg","min","max","value","sum"]
+          request {
+            formula {
+              formula_expression = "query1"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.serverless.aws_lambda_functions{*}"
+                data_source = "metrics"
+                name = "query1"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "area"
+          }
+          request {
+            formula {
+              formula_expression = "month_before(query0)"
+            }
+            on_right_yaxis = false
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.serverless.aws_lambda_functions{*}"
+                data_source = "metrics"
+                name = "query0"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "line"
+          }
+          yaxis {
+            include_zero = true
+            scale = "linear"
+            min = "auto"
+            max = "auto"
+          }
+          marker {
+            label = " commit "
+            value = "y = ${var.commited_serverless_workload_monitoring_lambda}"
+            display_type = "error dashed"
+          }
+        }
+        widget_layout {
+          x = 0
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Number of Serverless Workload (Lambda) (Count)"
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.serverless.aws_lambda_functions{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_serverless_workload_monitoring_lambda
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_serverless_workload_monitoring_lambda
+              palette = "white_on_red"
+            }
+          }
+          precision = 0
+        }
+        widget_layout {
+          x = 4
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Est. Cost Serverless Workload (Lambda) (USD) on-demand pricing"
+          request {
+            formula {
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_serverless_workload_monitoring_lambda}) * 7.20, 0)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.serverless.aws_lambda_functions{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "="
+              value = 0
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = 0
+              palette = "white_on_yellow"
+            }
+          }
+          precision = 0
+          custom_unit = "$"
+        }
+        widget_layout {
+          x = 8
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        timeseries_definition {
+          title = "Number of invocations (Lambda)"
+          show_legend = true
+          legend_layout = "auto"
+          legend_columns = ["avg","min","max","value","sum"]
+          request {
+            formula {
+              formula_expression = "query1"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.serverless.invocations{*}"
+                data_source = "metrics"
+                name = "query1"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "area"
+          }
+          request {
+            formula {
+              formula_expression = "month_before(query0)"
+            }
+            on_right_yaxis = false
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.serverless.invocations{*}"
+                data_source = "metrics"
+                name = "query0"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "line"
+          }
+          yaxis {
+            include_zero = true
+            scale = "linear"
+            min = "auto"
+            max = "auto"
+          }
+          marker {
+            label = " commit "
+            value = "y = ${var.commited_serverless_workload_lambda_invocations * local.million}"
+            display_type = "error dashed"
+          }
+        }
+        widget_layout {
+          x = 0
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Number of invocations (Lambda) (Count)"
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.serverless.invocations{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_serverless_workload_lambda_invocations * local.million
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_serverless_workload_lambda_invocations * local.million
+              palette = "white_on_red"
+            }
+          }
+          precision = 0
+        }
+        widget_layout {
+          x = 4
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Est. Cost Serverless Workload (Lambda) (USD) on-demand pricing"
+          request {
+            formula {
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_serverless_workload_lambda_invocations*local.million})/${local.million} * 15, 0)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.serverless.aws_lambda_functions{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "="
+              value = 0
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = 0
+              palette = "white_on_yellow"
+            }
+          }
+          precision = 0
+          custom_unit = "$"
+        }
+        widget_layout {
+          x = 8
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
     }
     widget_layout {
       x = 0
@@ -1555,7 +1821,7 @@ resource "datadog_dashboard" "cost_dashboard" {
           }
           marker {
             label = " commit "
-            value = "y = ${var.commited_indexed_logs * 1000000}"
+            value = "y = ${var.commited_indexed_logs * local.million}"
             display_type = "error dashed"
           }
         }
@@ -1575,13 +1841,13 @@ resource "datadog_dashboard" "cost_dashboard" {
               comparator = "<="
               hide_value = false
               palette = "white_on_green"
-              value = var.commited_indexed_logs * 1000000
+              value = var.commited_indexed_logs * local.million
             }
             conditional_formats {
               comparator = ">"
               hide_value = false
               palette = "white_on_yellow"
-              value = var.commited_indexed_logs * 1000000
+              value = var.commited_indexed_logs * local.million
             }
             formula {
               formula_expression = "default_zero(query1)"
@@ -1611,7 +1877,7 @@ resource "datadog_dashboard" "cost_dashboard" {
           live_span = "month_to_date"
           request {
             formula {
-              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_indexed_logs * 1000000}) / 2000000 * 1.59, 0)"
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_indexed_logs * local.million}) / 2000000 * 1.59, 0)"
             }
             query {
               metric_query {
@@ -1645,7 +1911,7 @@ resource "datadog_dashboard" "cost_dashboard" {
       }
       widget {
         timeseries_definition {
-          title = "Volume of log scaned for SDS"
+          title = "Volume of log scanned for SDS"
           show_legend = true
           legend_layout = "auto"
           legend_columns = ["avg","min","max","value","sum"]
@@ -3336,6 +3602,272 @@ resource "datadog_dashboard" "cost_dashboard" {
             query {
               metric_query {
                 query = "sum:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "="
+              value = 0
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = 0
+              palette = "white_on_yellow"
+            }
+          }
+          precision = 0
+          custom_unit = "$"
+        }
+        widget_layout {
+          x = 8
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        timeseries_definition {
+          title = "Number of log events analyzed (Cloud SIEM)"
+          show_legend = true
+          legend_layout = "auto"
+          legend_columns = ["avg","min","max","value","sum"]
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.security_monitoring.analyzed_events{*}"
+                data_source = "metrics"
+                name = "query1"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "area"
+          }
+          request {
+            on_right_yaxis = false
+            formula {
+              formula_expression = "month_before(query0)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.security_monitoring.analyzed_events{*}"
+                data_source = "metrics"
+                name = "query0"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "line"
+          }
+          yaxis {
+            include_zero = true
+            scale = "linear"
+            min = "auto"
+            max = "auto"
+          }
+          marker {
+            label = " commit "
+            value = "y = ${var.commited_siem_logs * local.million}"
+            display_type = "error dashed"
+          }
+        }
+        widget_layout {
+          x = 0
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Number of log events analyzed (Cloud SIEM) (count)"
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.security_monitoring.analyzed_events{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_siem_logs * local.million
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_siem_logs * local.million
+              palette = "white_on_red"
+            }
+          }
+          precision = 0
+        }
+        widget_layout {
+          x = 4
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Est. Cost for Cloud SIEM (USD) on-demand"
+          request {
+            formula {
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_siem_logs}) * 7.50, 0)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.asm.vulnerability_oss_host{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "="
+              value = 0
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = 0
+              palette = "white_on_yellow"
+            }
+          }
+          precision = 0
+          custom_unit = "$"
+        }
+        widget_layout {
+          x = 8
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        timeseries_definition {
+          title = "Serverless Application Security Invocations (Lambda)"
+          show_legend = true
+          legend_layout = "auto"
+          legend_columns = ["avg","min","max","value","sum"]
+          request {
+            formula {
+              formula_expression = "query1"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.asm.traced_invocations{*}"
+                data_source = "metrics"
+                name = "query1"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "area"
+          }
+          request {
+            formula {
+              formula_expression = "month_before(query0)"
+            }
+            on_right_yaxis = false
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.asm.traced_invocations{*}"
+                data_source = "metrics"
+                name = "query0"
+              }
+            }
+            style {
+              palette = "dog_classic"
+              line_type = "solid"
+              line_width = "normal"
+            }
+            display_type = "line"
+          }
+          yaxis {
+            include_zero = true
+            scale = "linear"
+            min = "auto"
+            max = "auto"
+          }
+          marker {
+            label = " commit "
+            value = "y = ${var.commited_serverless_asm_invocations*local.million}"
+            display_type = "error dashed"
+          }
+        }
+        widget_layout {
+          x = 0
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Serverless Application Security Invocations (Lambda) (Count)"
+          request {
+            formula {
+              formula_expression = "default_zero(query1)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.asm.traced_invocations{*}"
+                data_source = "metrics"
+                name = "query1"
+                aggregator = "max"
+              }
+            }
+            conditional_formats {
+              comparator = "<="
+              value = var.commited_serverless_asm_invocations * local.million
+              palette = "white_on_green"
+            }
+            conditional_formats {
+              comparator = ">"
+              value = var.commited_serverless_asm_invocations * local.million
+              palette = "white_on_red"
+            }
+          }
+          precision = 0
+        }
+        widget_layout {
+          x = 4
+          y = 0
+          width = 4
+          height = 2
+        }
+      }
+      widget {
+        query_value_definition {
+          title = "Est. Serverless Application Security Invocations (Lambda) (USD) on-demand pricing"
+          request {
+            formula {
+              formula_expression = "clamp_min((default_zero(query1) - ${var.commited_serverless_asm_invocations*local.million})/${local.million} * 15, 0)"
+            }
+            query {
+              metric_query {
+                query = "sum:datadog.estimated_usage.asm.traced_invocations{*}"
                 data_source = "metrics"
                 name = "query1"
                 aggregator = "max"

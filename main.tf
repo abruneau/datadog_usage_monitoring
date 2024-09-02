@@ -36,6 +36,10 @@ module "monitors" {
   commited_network_hosts                     = var.commited_network_hosts
   commited_network_devices                   = var.commited_network_devices
   commited_asm_sca_hosts                     = var.commited_asm_sca_hosts
+  commited_siem_logs                                 = var.commited_siem_logs
+  commited_serverless_workload_monitoring_lambda     = var.commited_serverless_workload_monitoring_lambda
+  commited_serverless_workload_lambda_invocations    = var.commited_serverless_workload_lambda_invocations
+  commited_serverless_asm_invocations                = var.commited_serverless_asm_invocations
   monitors_tags                              = var.monitors_tags
 }
 
@@ -63,4 +67,8 @@ module "dashboards" {
   commited_network_hosts                     = var.commited_network_hosts
   commited_network_devices                   = var.commited_network_devices
   commited_asm_sca_hosts                     = var.commited_asm_sca_hosts
+  commited_siem_logs                                 = var.commited_siem_logs
+  commited_serverless_workload_monitoring_lambda     = var.commited_serverless_workload_monitoring_lambda
+  commited_serverless_workload_lambda_invocations    = var.commited_serverless_workload_lambda_invocations
+  commited_serverless_asm_invocations                = var.commited_serverless_asm_invocations
 }
