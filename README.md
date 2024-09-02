@@ -162,6 +162,10 @@ No resources.
 | <a name="input_commited_synthetics_api"></a> [commited\_synthetics\_api](#input\_commited\_synthetics\_api) | number of 10K test runs | `number` | `0` | no |
 | <a name="input_commited_synthetics_browser"></a> [commited\_synthetics\_browser](#input\_commited\_synthetics\_browser) | number of 1K test runs | `number` | `0` | no |
 | <a name="input_commited_synthetics_mobile"></a> [commited\_synthetics\_mobile](#input\_commited\_synthetics\_mobile) | number of 100 test runs | `number` | `0` | no |
+| <a name="commited_serverless_workload_monitoring_lambda"></a> [commited_serverless_workload_monitoring_lambda](#input\_commited_serverless_workload_monitoring_lambda) | number of instrumented lambda functions | `number` | `0` | no |
+| <a name="commited_serverless_workload_lambda_invocations"></a> [commited_serverless_workload_lambda_invocations](#input\_commited_serverless_workload_lambda_invocations) | value in million events | `number` | `0` | no |
+| <a name="commited_serverless_asm_invocations"></a> [commited_serverless_asm_invocations](#input\_commited_serverless_asm_invocations) | value in million of traced invocations | `number` | `0` | no |
+| <a name="commited_siem_logs"></a> [commited_siem_logs](#input\_commited_siem_logs) | value in million events | `number` | `0` | no |
 | <a name="input_datadog_api_key"></a> [datadog\_api\_key](#input\_datadog\_api\_key) | n/a | `string` | n/a | yes |
 | <a name="input_datadog_api_url"></a> [datadog\_api\_url](#input\_datadog\_api\_url) | n/a | `string` | `"https://api.datadoghq.com/"` | no |
 | <a name="input_datadog_app_key"></a> [datadog\_app\_key](#input\_datadog\_app\_key) | n/a | `string` | n/a | yes |
