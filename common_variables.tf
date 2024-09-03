@@ -155,3 +155,23 @@ variable "commited_asm_sca_hosts" {
   type = number
   default = 0
 }
+
+variable "commited_siem_logs" {
+  type = number
+  default = 0
+}
+
+variable "commited_serverless_workload_monitoring_lambda" {
+  type = number
+  default = 0
+}
+
+variable "commited_serverless_workload_lambda_invocations" {
+  type = number
+  default = 0
+}
+
+variable "commited_serverless_asm_invocations" {
+  type = number
+  default = 0
+}
